@@ -6,6 +6,9 @@
         <variable
             name="viewModel"
             type="com.example.trainingtimer.MainActivityViewModel" />
+
+        <import type="com.example.trainingtimer.ConfigSettingType"/>
+
     </data>
 
     <LinearLayout
@@ -34,7 +37,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:text="@string/minusBtn"
-                android:onClick="@{() -> viewModel.addStartWaitTime(-1)}"
+                android:tag="@{ConfigSettingType.StartWaitTime}"
+                android:onClick="@{v->viewModel.changeSetting(v,-1)}"
                 android:textSize="20sp" />
 
             <TextView
@@ -49,8 +53,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:tag="@{ConfigSettingType.StartWaitTime}"
+                android:onClick="@{v->viewModel.changeSetting(v,1)}"
                 android:text="@string/plusBtn"
-                android:onClick="@{() -> viewModel.addStartWaitTime(1)}"
                 android:textSize="20sp" />
 
         </LinearLayout>
@@ -74,21 +79,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
-                android:text="@string/plusBtn"
+                android:tag="@{ConfigSettingType.TrainingTime}"
+                android:onClick="@{v->viewModel.changeSetting(v,-1)}"
+                android:text="@string/minusBtn"
                 android:textSize="20sp" />
 
-            <EditText
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="00:00"
+                android:text="@{viewModel.TrainingTimeStr}"
                 android:textSize="25sp" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="@string/minusBtn"
+                android:tag="@{ConfigSettingType.TrainingTime}"
+                android:onClick="@{v->viewModel.changeSetting(v,1)}"
+                android:text="@string/plusBtn"
                 android:textSize="20sp" />
 
         </LinearLayout>
@@ -102,7 +111,7 @@
             android:text="@string/restTime"
             android:textSize="20sp" />
 
-        <!--    トレーニングする時間 -->
+        <!--    休憩する時間 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -113,21 +122,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
-                android:text="@string/plusBtn"
+                android:tag="@{ConfigSettingType.RestTime}"
+                android:onClick="@{v->viewModel.changeSetting(v,-1)}"
+                android:text="@string/minusBtn"
                 android:textSize="20sp" />
 
-            <EditText
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="00:00"
+                android:text="@{viewModel.RestTimeStr}"
                 android:textSize="25sp" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="@string/minusBtn"
+                android:tag="@{ConfigSettingType.RestTime}"
+                android:onClick="@{v->viewModel.changeSetting(v,1)}"
+                android:text="@string/plusBtn"
                 android:textSize="20sp" />
 
         </LinearLayout>
@@ -141,7 +154,6 @@
             android:text="@string/repeatCount"
             android:textSize="20sp" />
 
-        <!--    トレーニングする時間 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -152,21 +164,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
-                android:text="@string/plusBtn"
+                android:tag="@{ConfigSettingType.RepeatCount}"
+                android:onClick="@{v->viewModel.changeSetting(v,-1)}"
+                android:text="@string/minusBtn"
                 android:textSize="20sp" />
 
-            <EditText
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="00"
+                android:text="@{viewModel.RepeatCountStr}"
                 android:textSize="25sp" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="@string/minusBtn"
+                android:tag="@{ConfigSettingType.RepeatCount}"
+                android:onClick="@{v->viewModel.changeSetting(v,1)}"
+                android:text="@string/plusBtn"
                 android:textSize="20sp" />
 
         </LinearLayout>
