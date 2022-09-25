@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">トレーニングタイマー</string>
+
+    <string name="settingBtn">設定</string>
+    <string name="startTimerBtn">タイマー開始</string>
+
+    <string name="startWaitTime">タイマー開始までの時間</string>
+    <string name="trainingTime">トレーニングする時間</string>
+    <string name="restTime">休憩時間</string>
+    <string name="repeatCount">何回繰り返すか</string>
+
+    <string name="confirmBtn">確定</string>
+    <string name="cancelBtn">キャンセル</string>
+
+    <string name="plusBtn">+</string>
+    <string name="minusBtn">-</string>
+</resources>
