@@ -2,11 +2,13 @@ package com.example.trainingtimer
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.example.trainingtimer.databinding.FragmentSettingBinding
 
 class SettingFragment : Fragment() {
@@ -35,6 +37,25 @@ class SettingFragment : Fragment() {
 
         binding.viewModel = viewModel
 
+        //  画面遷移イベント
+        viewModel.onTransit.observe(viewLifecycleOwner, Observer {
+            if(it) {
+                viewModel.navigateToTransitHandled()
+                onTransit()
+            }
+        })
+
         return binding.root
     }
+
+    private fun onTransit(){
+        val transaction = parentFragmentManager.beginTransaction()
+        transaction.addToBackStack(null)
+
+        transaction.setCustomAnimations(androidx.appcompat.R.anim.abc_slide_in_bottom, androidx.appcompat.R.anim.abc_slide_out_top);
+
+        transaction.replace(R.id.container,TimerFragment.newInstance())
+        transaction.commit()
+    }
+
 }
