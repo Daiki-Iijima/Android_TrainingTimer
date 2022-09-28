@@ -2,19 +2,16 @@ package com.example.trainingtimer
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
-import com.example.trainingtimer.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-        val vm = ViewModelProvider(this)[MainActivityViewModel::class.java]
+        val transaction = supportFragmentManager.beginTransaction()
 
-        val binding : ActivityMainBinding = DataBindingUtil.setContentView<ActivityMainBinding?>(this,R.layout.activity_main).apply {
-            lifecycleOwner = this@MainActivity  // これがないとうまく動かない
-            viewModel = vm
-        }
+        transaction.replace(R.id.container, SettingFragment())
+
+        transaction.commit()
     }
 }
