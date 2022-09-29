@@ -28,21 +28,13 @@
             android:orientation="horizontal">
 
             <Button
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.5"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:text="ストップ" />
+                android:onClick="@{viewModel.onClickTimer}"
+                android:text="@{viewModel.timerBtnText}" />
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:onClick="@{viewModel.onClickStart}"
-                android:text="スタート" />
         </LinearLayout>
 
     </LinearLayout>

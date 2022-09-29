@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 
 class SettingViewModel : ViewModel() {
 
-    private val timerSetting = TimerSetting(0,0,0,0)
+    val timerSetting = TimerSetting(0,0,0,0)
 
     private val _onTransit = MutableLiveData<Boolean>()
 

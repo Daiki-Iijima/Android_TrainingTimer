@@ -8,25 +8,84 @@ import androidx.lifecycle.ViewModel
 class TimerViewModel : ViewModel() {
 
     val onStartTimer = MutableLiveData<Event>()
+    val onStopTimer = MutableLiveData<Event>()
 
-    var timerStr = MutableLiveData<String>().apply{
-        value = getTimerString()
+    var isStart:Boolean = false
+    set(value) {
+        if(field == value){
+            return
+        }
+
+        //  値をマイナスにさせない
+        if(value && timer == 0){
+            return
+        }
+
+        timerBtnText.postValue(getTimerBtnText(value))
+
+        if(value){
+            onStartTimer.postValue(Event())
+        }else {
+            onStopTimer.postValue(Event())
+        }
+
+        field = value
     }
-
     private var timer : Int = 0
 
-    private fun getTimerString():String{
-        var retStr = timer.toString()
+    private lateinit var timerSetting:TimerSetting
 
-        if(timer < 10){
-            retStr = "0$timer"
+    var timerBtnText = MutableLiveData<String>().apply {
+        value = getTimerBtnText(isStart)
+    }
+
+    var timerStr = MutableLiveData<String>().apply{
+        value = getTimerString(timer)
+    }
+
+    fun loadSetting(setting:SettingViewModel){
+        timerSetting = setting.timerSetting
+
+        //  TODO : ほかの時間も計算する必要がある
+        setTime(timerSetting.TrainingTime)
+    }
+
+    private fun getTimerString(value:Int):String{
+        var retStr = value.toString()
+
+        if(value < 10){
+            retStr = "0$value"
         }
 
         return retStr
     }
 
-    fun onClickStart(view: View){
-        onStartTimer.value = Event()
+    fun setTime(value:Int){
+        timer = value
+        timerStr.postValue(getTimerString(timer))
+    }
+
+    fun resetTimer(){
+        //  TODO : ほかの時間も計算する必要がある
+        timer = timerSetting.TrainingTime
+        timerStr.postValue(getTimerString(timer))
+    }
+
+    fun addTimer(value:Int){
+        timer += value
+        timerStr.postValue(getTimerString(timer))
+    }
+
+    fun getTimer():Int{
+        return timer
+    }
+
+    fun onClickTimer(view: View) {
+        isStart = !isStart
+    }
+
+    private fun getTimerBtnText(flag:Boolean):String{
+        return if(flag) "タイマーストップ" else "タイマースタート"
     }
 
 }
