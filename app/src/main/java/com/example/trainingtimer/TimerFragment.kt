@@ -60,8 +60,7 @@ class TimerFragment : Fragment() {
 
                     //  タイマーカウントが終わっていたら
                     if(viewModel.getTimer() == 0){
-                        viewModel.isStart = false
-                        viewModel.resetTimer()
+                        viewModel.nextStep()
                     }else{
                         viewModel.addTimer(-1)
                     }
