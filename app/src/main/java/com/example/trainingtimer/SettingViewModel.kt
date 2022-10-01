@@ -1,6 +1,5 @@
 package com.example.trainingtimer
 
-import android.app.usage.UsageEvents.Event
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

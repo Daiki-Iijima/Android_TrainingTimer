@@ -11,10 +11,10 @@ class TimerViewModel : ViewModel() {
     val onStopTimer = MutableLiveData<Event>()
 
     //  現在のカウント状態
-    var status: ConfigSettingType = ConfigSettingType.StartWaitTime
-    var repeatCount: Int = 0
+    private var status: ConfigSettingType = ConfigSettingType.StartWaitTime
+    private var repeatCount: Int = 0
 
-    var isStart:Boolean = false
+    private var isStart:Boolean = false
     set(value) {
         if(field == value){
             return
@@ -92,14 +92,13 @@ class TimerViewModel : ViewModel() {
         }
     }
 
-    fun setTime(value:Int){
+    private fun setTime(value:Int){
         timer = value
         timerStr.postValue(getTimerString(timer))
     }
 
-    fun resetTimer(){
-        //  TODO : ほかの時間も計算する必要がある
-        var setTime:Int = 0
+    private fun resetTimer(){
+        var setTime = 0
         when(status){
             ConfigSettingType.StartWaitTime->{
                 setTime = timerSetting.StartWaitTime
@@ -152,12 +151,14 @@ class TimerViewModel : ViewModel() {
                 if(checkCanRepeat()){
                     status = ConfigSettingType.TrainingTime
                     repeatCount++
-                    //  繰り返しカウントの更新
-                    repeatCountStr.postValue("${repeatCount+1}/${timerSetting.RepeatCount}")
                 }else {
                     status = ConfigSettingType.StartWaitTime
+                    repeatCount = 0
                     isStart = false
                 }
+
+                //  繰り返しカウントの更新
+                repeatCountStr.postValue("${repeatCount+1}/${timerSetting.RepeatCount}")
 
             }
             else->{

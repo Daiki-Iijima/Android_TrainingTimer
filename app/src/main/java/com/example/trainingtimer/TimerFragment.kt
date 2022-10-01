@@ -72,6 +72,12 @@ class TimerFragment : Fragment() {
             while (true) {
                 Thread.sleep(1000L)
                 if (countFlag) {
+                    //  タイマーカウントが終わっていたら
+                    if(viewModel.getTimer() == 0){
+                        viewModel.nextStep()
+                    }else{
+                        viewModel.addTimer(-1)
+                    }
 
                     //  最後の3秒と0秒目は音を鳴らす
                     if(viewModel.getTimer() == 3){
@@ -85,13 +91,6 @@ class TimerFragment : Fragment() {
                     }
                     if(viewModel.getTimer() == 0){
                         soundPool.play(soundZero,1.0f,1.0f,0,0,1.0f)
-                    }
-
-                    //  タイマーカウントが終わっていたら
-                    if(viewModel.getTimer() == 0){
-                        viewModel.nextStep()
-                    }else{
-                        viewModel.addTimer(-1)
                     }
                 }
             }
