@@ -1,21 +1,15 @@
 package com.example.trainingtimer
 
+import android.media.AudioAttributes
+import android.media.SoundPool
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.get
 import com.example.trainingtimer.databinding.FragmentTimerBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class TimerFragment : Fragment() {
 
@@ -26,12 +20,16 @@ class TimerFragment : Fragment() {
     private lateinit var binding: FragmentTimerBinding
     private lateinit var viewModel: TimerViewModel
 
-    var countFlag:Boolean = false
+    private var countFlag:Boolean = false
+    private var soundCount = 0
+    private var soundZero = 0
+
+    private lateinit var soundPool:SoundPool
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = DataBindingUtil.inflate(
             inflater,
@@ -52,11 +50,42 @@ class TimerFragment : Fragment() {
 
         viewModel.loadSetting(settingViewModel)
 
+        //  音の設定
+        val audioAttribute = AudioAttributes
+            .Builder()
+            .setUsage(AudioAttributes.USAGE_GAME)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+            .build()
+
+        soundPool = SoundPool
+            .Builder()
+            .setAudioAttributes(audioAttribute)
+            .setMaxStreams(2)
+            .build()
+
+        //  リソースの割り当て
+        soundCount = soundPool.load(context,R.raw.count,1)
+        soundZero = soundPool.load(context,R.raw.zero,1)
+
         //  別スレッドで無限ループ開始
         Thread {
             while (true) {
                 Thread.sleep(1000L)
                 if (countFlag) {
+
+                    //  最後の3秒と0秒目は音を鳴らす
+                    if(viewModel.getTimer() == 3){
+                        soundPool.play(soundCount,1.0f,1.0f,0,0,1.0f)
+                    }
+                    if(viewModel.getTimer() == 2){
+                        soundPool.play(soundCount,1.0f,1.0f,0,0,1.0f)
+                    }
+                    if(viewModel.getTimer() == 1){
+                        soundPool.play(soundCount,1.0f,1.0f,0,0,1.0f)
+                    }
+                    if(viewModel.getTimer() == 0){
+                        soundPool.play(soundZero,1.0f,1.0f,0,0,1.0f)
+                    }
 
                     //  タイマーカウントが終わっていたら
                     if(viewModel.getTimer() == 0){
@@ -79,5 +108,11 @@ class TimerFragment : Fragment() {
         binding.viewModel = viewModel
 
         return binding.root
+    }
+
+    override fun onDestroy() {
+        //  音声リソースの解放
+        soundPool.release()
+        super.onDestroy()
     }
 }
