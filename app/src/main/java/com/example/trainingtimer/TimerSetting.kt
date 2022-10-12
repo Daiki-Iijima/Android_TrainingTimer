@@ -1,12 +1,5 @@
 package com.example.trainingtimer
 
-enum class ConfigSettingType {
-    StartWaitTime,
-    TrainingTime,
-    RestTime,
-    RepeatCount,
-}
-
 //  データ
 //  StartWaitTime : タイマー開始までの時間
 //  TrainingTime : トレーニングする時間
